@@ -1,3 +1,18 @@
+# OpenTelemetry Instrumentation
+
+This branch contains code for OpenTelemetry instrumentation.
+
+Hitting an API endpoint will generate the corresponding traces. Traces are printed to the console by default. If you want to send traces to a backend tool, update the configuration by commenting out the `OTEL_LOG_LEVEL` line and uncommenting the `OTEL_EXPORTER_OTLP_TRACES_ENDPOINT` line.
+
+And also update [main.py](main.py):
+`if os.getenv('OTEL_LOG_LEVEL', '') == 'debug':` to `if os.getenv('OTEL_LOG_LEVEL', '') == 'otlp':`
+
+This ensures that traces are sent to the backend tool instead of being printed to the console."
+
+Refer the project README below for more details.
+
+---
+
 # Python Manual Instrumentation
 
 This is a sample app to demonstrate how to instrument Python Manual app with **New Relic** and **OpenTelemetry**. It contains source code for the Python Manual app.
@@ -18,7 +33,15 @@ Clone this repository and go to the project directory. Then run the following co
 python3 -m venv .
 source ./bin/activate
 pip install -r requirements.txt
+opentelemetry-bootstrap -a install
 
+
+export OTEL_SERVICE_NAME=cube_sample_python_manual
+export OTEL_EXPORTER_OTLP_COMPRESSION=gzip
+# print traces on console
+export OTEL_LOG_LEVEL=debug
+# send traces to CubeAPM
+# export OTEL_EXPORTER_OTLP_TRACES_ENDPOINT=http://<ip_address_of_cubeapm_server>:4318/v1/traces
 python3 main.py
 ```
 
