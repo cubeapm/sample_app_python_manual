@@ -5,6 +5,7 @@ This branch contains code for OpenTelemetry instrumentation.
 Hitting an API endpoint will generate the corresponding traces. Traces are printed to the console by default. If you want to send traces to a backend tool, update the configuration by commenting out the `OTEL_LOG_LEVEL` line and uncommenting the `OTEL_EXPORTER_OTLP_TRACES_ENDPOINT` line.
 
 And also update [main.py](main.py):
+
 `if os.getenv('OTEL_LOG_LEVEL', '') == 'debug':` to `if os.getenv('OTEL_LOG_LEVEL', '') == 'otlp':`
 
 This ensures that traces are sent to the backend tool instead of being printed to the console."
