@@ -1,3 +1,15 @@
+# New Relic Instrumentation
+
+This branch contains code for New Relic instrumentation.
+
+CubeAPM works with New Relic agents as described in [using CubeAPM with New Relic agents](https://docs.cubeapm.com/instrumentation#using-cubeapm-with-new-relic-agents).
+
+For testing, **ngrok** can be used in place of load balancer. Run `ngrok http 3130` to create a tunnel and use the domain name provided by ngrok to set `NEW_RELIC_HOST=xxxx.ngrok-free.app`.
+
+Refer the project README below for more details.
+
+---
+
 # Python Manual Instrumentation
 
 This is a sample app to demonstrate how to instrument Python Manual app with **New Relic** and **OpenTelemetry**. It contains source code for the Python Manual app.
@@ -19,6 +31,10 @@ python3 -m venv .
 source ./bin/activate
 pip install -r requirements.txt
 
+# New Relic agent will send data on https://<domain_of_cubeapm_server>:443
+export NEW_RELIC_HOST=<domain_of_cubeapm_server>
+export NEW_RELIC_APP_NAME=cube_sample_python_manual_newrelic
+export NEW_RELIC_LICENSE_KEY=ABC4567890ABC4567890ABC4567890ABC4567890
 python3 main.py
 ```
 

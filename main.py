@@ -1,24 +1,45 @@
 import os
 import time
+import newrelic.agent
+
+# Reference documentation:
+# https://docs.newrelic.com/docs/apm/agents/python-agent/python-agent-api/guide-using-python-agent-api/
+
+# Initialize New Relic agent
+newrelic.agent.initialize()
+
+@newrelic.agent.background_task(name="my_span_name")
 def someTask():
-    childTask(2)
+    with newrelic.agent.FunctionTrace(name="child_task"):
+        childTask(2)
+
     try:
-        errorTask()
+        with newrelic.agent.FunctionTrace(name="error_task"):
+            errorTask()
     except Exception as ex:
-        pass
+        transaction = newrelic.agent.current_transaction()
+        if transaction:
+            newrelic.agent.notice_error(error=ex)
+
     try:
-        errorTaskWithSpan()
+        with newrelic.agent.FunctionTrace(name="error_task_with_span"):
+            errorTaskWithSpan()
     except:
         pass
 
-    time.sleep(0.1)
+    with newrelic.agent.FunctionTrace(name="inline_span"):
+        time.sleep(0.1)
 
+@newrelic.agent.background_task(name="child_task")
 def childTask(val):
-    pass
+    transaction = newrelic.agent.current_transaction()
+    if transaction:
+        transaction.add_custom_parameter("val", val)
 
 def errorTask():
     raise KeyError()
 
+@newrelic.agent.background_task(name="error_task_with_span")
 def errorTaskWithSpan():
     raise KeyError()
 
