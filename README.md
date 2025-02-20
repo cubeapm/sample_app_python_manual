@@ -2,7 +2,7 @@
 
 This branch contains code for OpenTelemetry instrumentation.
 
-Hitting an API endpoint will generate the corresponding traces. Traces are printed to the console by default. If you want to send traces to a backend tool, update the configuration by commenting out the `OTEL_LOG_LEVEL` line and uncommenting the `OTEL_EXPORTER_OTLP_TRACES_ENDPOINT` line.
+Running the application will generate the corresponding traces. Traces are printed to the console by default. If you want to send traces to a backend tool, update the configuration by commenting out the `OTEL_LOG_LEVEL` line and uncommenting the `OTEL_EXPORTER_OTLP_TRACES_ENDPOINT` line.
 
 And also update [main.py](main.py):
 
@@ -37,7 +37,7 @@ pip install -r requirements.txt
 opentelemetry-bootstrap -a install
 
 
-export OTEL_SERVICE_NAME=cube_sample_python_manual
+export OTEL_SERVICE_NAME=cube_sample_python_manual_otel
 export OTEL_EXPORTER_OTLP_COMPRESSION=gzip
 # print traces on console
 export OTEL_LOG_LEVEL=debug
